@@ -1,3 +1,4 @@
+// src/components/ShowDetails.tsx
 import Image from 'next/image';
 import Link from 'next/link';
 import { TVShow } from '@/types/tv';
@@ -9,7 +10,7 @@ interface ShowDetailsProps {
 
 export default function ShowDetails({ show }: ShowDetailsProps) {
   return (
-    <main className="min-h-screen bg-gray-100">
+    <main className="min-h-screen bg-gray-900 text-gray-100">
       {/* Hero Section */}
       <div className="relative h-[50vh] w-full">
         {show.backdrop_path && (
@@ -51,19 +52,19 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
                 className="object-cover rounded-lg"
               />
             </div>
-            <div className="bg-white p-4 rounded-lg shadow">
-              <h3 className="font-semibold mb-2">Show Info</h3>
+            <div className="bg-gray-800 p-4 rounded-lg shadow border border-gray-700">
+              <h3 className="font-semibold mb-2 text-gray-200">Show Info</h3>
               <dl className="space-y-2">
                 <div>
-                  <dt className="text-gray-600">Status</dt>
+                  <dt className="text-gray-400">Status</dt>
                   <dd>{show.status}</dd>
                 </div>
                 <div>
-                  <dt className="text-gray-600">Network</dt>
+                  <dt className="text-gray-400">Network</dt>
                   <dd>{show.networks?.[0]?.name}</dd>
                 </div>
                 <div>
-                  <dt className="text-gray-600">Genre</dt>
+                  <dt className="text-gray-400">Genre</dt>
                   <dd>{show.genres.map(g => g.name).join(', ')}</dd>
                 </div>
               </dl>
@@ -73,13 +74,14 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
           {/* Main Content */}
           <div className="md:col-span-2">
             {/* Overview */}
-            <div className="bg-white p-6 rounded-lg shadow mb-6">
-              <h2 className="text-2xl font-semibold mb-4">Overview</h2>
-              <p className="text-gray-700">{show.overview}</p>
+            <div className="bg-gray-800 p-6 rounded-lg shadow mb-6 border border-gray-700">
+              <h2 className="text-2xl font-semibold mb-4 text-gray-100">Overview</h2>
+              <p className="text-gray-300">{show.overview}</p>
             </div>
+
             {/* Cast */}
-            <div className="bg-white p-6 rounded-lg shadow mb-6">
-              <h2 className="text-2xl font-semibold mb-4">Cast</h2>
+            <div className="bg-gray-800 p-6 rounded-lg shadow mb-6 border border-gray-700">
+              <h2 className="text-2xl font-semibold mb-4 text-gray-100">Cast</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {show.credits.cast.slice(0, 8).map((actor) => (
                   <ActorCard
@@ -93,11 +95,11 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
             </div>
 
             {/* Seasons */}
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h2 className="text-2xl font-semibold mb-4">Seasons</h2>
+            <div className="bg-gray-800 p-6 rounded-lg shadow border border-gray-700">
+              <h2 className="text-2xl font-semibold mb-4 text-gray-100">Seasons</h2>
               <div className="space-y-4">
                 {show.seasons.map((season) => (
-                  <div key={season.id} className="flex gap-4 p-4 bg-gray-50 rounded-lg">
+                  <div key={season.id} className="flex gap-4 p-4 bg-gray-700 rounded-lg">
                     {season.poster_path && (
                       <div className="relative w-24 aspect-[2/3]">
                         <Image
@@ -109,11 +111,11 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
                       </div>
                     )}
                     <div>
-                      <h3 className="font-semibold">{season.name}</h3>
-                      <p className="text-sm text-gray-600">
+                      <h3 className="font-semibold text-gray-100">{season.name}</h3>
+                      <p className="text-sm text-gray-300">
                         {season.episode_count} Episodes • {season.air_date && new Date(season.air_date).getFullYear()}
                       </p>
-                      <p className="text-sm text-gray-700 mt-2">{season.overview || 'No overview available.'}</p>
+                      <p className="text-sm text-gray-400 mt-2">{season.overview || 'No overview available.'}</p>
                     </div>
                   </div>
                 ))}
@@ -125,7 +127,7 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
         {/* Similar Shows */}
         {show.similar.results.length > 0 && (
           <div className="mt-8">
-            <h2 className="text-2xl font-semibold mb-4">Similar Shows</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-gray-100">Similar Shows</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {show.similar.results.slice(0, 6).map((similar) => (
                 <Link key={similar.id} href={`/show/${similar.id}`} className="group">
@@ -137,7 +139,7 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
                       className="object-cover rounded-lg group-hover:opacity-75 transition-opacity"
                     />
                   </div>
-                  <p className="font-medium text-sm group-hover:text-blue-600">{similar.name}</p>
+                  <p className="font-medium text-sm text-gray-300 group-hover:text-blue-400">{similar.name}</p>
                 </Link>
               ))}
             </div>
