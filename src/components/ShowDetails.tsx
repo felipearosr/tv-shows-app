@@ -41,9 +41,9 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
 
       {/* Content */}
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-7 gap-8">
           {/* Sidebar */}
-          <div className="md:col-span-1">
+          <div className="md:col-span-2  ">
             <div className="relative aspect-[2/3] mb-4">
               <Image
                 src={`${process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL}/w500${show.poster_path}`}
@@ -72,7 +72,7 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
           </div>
 
           {/* Main Content */}
-          <div className="md:col-span-2">
+          <div className="md:col-span-5">
             {/* Overview */}
             <div className="bg-gray-800 p-6 rounded-lg shadow mb-6 border border-gray-700">
               <h2 className="text-2xl font-semibold mb-4 text-gray-100">Overview</h2>
@@ -81,18 +81,60 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
 
             {/* Cast */}
             <div className="bg-gray-800 p-6 rounded-lg shadow mb-6 border border-gray-700">
-              <h2 className="text-2xl font-semibold mb-4 text-gray-100">Cast</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                {show.credits.cast.slice(0, 8).map((actor) => (
-                  <ActorCard
-                    key={actor.id}
-                    name={actor.name}
-                    character={actor.character}
-                    profilePath={actor.profile_path}
-                  />
-                ))}
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-semibold text-gray-100">Cast</h2>
+                
+                {/* Show More link - only visible if there are more than 7 cast members */}
+                {show.credits.cast.length > 7 && (
+                  <a 
+                    href={`/show/${show.id}/cast`} 
+                    className="text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium flex items-center"
+                  >
+                    View All Cast
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+              
+              {/* Mobile: Horizontally scrollable, Desktop: Grid with 7 columns */}
+              <div className="relative">
+                {/* Scrollable on mobile, hidden on larger screens */}
+                <div className="md:hidden relative">
+                  {/* Gradient fade effect */}
+                  <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-800 to-transparent z-10 pointer-events-none" />
+                  
+                  {/* Scrollable container */}
+                  <div className="flex overflow-x-auto gap-3 pb-3 -mx-1 px-1">
+                    {show.credits.cast.slice(0, 7).map((actor) => (
+                      <div key={actor.id} className="flex-none w-32">
+                        <ActorCard
+                          key={actor.id}
+                          name={actor.name}
+                          character={actor.character}
+                          profilePath={actor.profile_path}
+                          size="sm"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Desktop grid - hidden on mobile */}
+                <div className="hidden md:grid md:grid-cols-7 gap-4">
+                  {show.credits.cast.slice(0, 7).map((actor) => (
+                    <ActorCard
+                      key={actor.id}
+                      name={actor.name}
+                      character={actor.character}
+                      profilePath={actor.profile_path}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
+
 
             {/* Seasons */}
             <div className="bg-gray-800 p-6 rounded-lg shadow border border-gray-700">
