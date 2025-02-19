@@ -9,6 +9,18 @@ interface ShowDetailsProps {
 }
 
 export default function ShowDetails({ show }: ShowDetailsProps) {
+  // Sort seasons in reverse chronological order (newest first)
+  const sortedSeasons = [...show.seasons].sort((a, b) => {
+    // Handle missing air dates by considering them older
+    if (!a.air_date) return 1;
+    if (!b.air_date) return -1;
+    return new Date(b.air_date).getTime() - new Date(a.air_date).getTime();
+  });
+
+  // Take first 5 seasons for display
+  const visibleSeasons = sortedSeasons.slice(0, 5);
+  const hasMoreSeasons = show.seasons.length > 5;
+
   return (
     <main className="text-gray-100">
       {/* Hero Section - Full width section */}
@@ -140,8 +152,8 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-semibold text-gray-100">Seasons</h2>
                 
-                {/* Show More link - conditionally shown if more than visible seasons */}
-                {show.seasons.length > 4 && (
+                {/* Show More link - only visible if there are more than 5 seasons */}
+                {hasMoreSeasons && (
                   <a 
                     href={`/show/${show.id}/seasons`} 
                     className="text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium flex items-center"
@@ -154,14 +166,37 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
                 )}
               </div>
               
-              {/* Seasons Scrollable Container */}
+              {/* Mobile: Horizontally scrollable, Desktop: Grid matching cast layout */}
               <div className="relative">
-                {/* Gradient fade effect */}
-                <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-800 to-transparent z-10 pointer-events-none" />
+                {/* Scrollable on mobile, hidden on larger screens */}
+                <div className="md:hidden relative">
+                  {/* Gradient fade effect */}
+                  <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-800 to-transparent z-10 pointer-events-none" />
+                  
+                  {/* Scrollable container */}
+                  <div className="flex overflow-x-auto gap-3 pb-3 -mx-1 px-1">
+                    {visibleSeasons.map((season) => (
+                      <div key={season.id} className="flex-none w-32">
+                        <SeasonCard
+                          key={season.id}
+                          id={season.id}
+                          showId={show.id}
+                          name={season.name}
+                          posterPath={season.poster_path}
+                          seasonNumber={season.season_number}
+                          episodeCount={season.episode_count}
+                          airDate={season.air_date}
+                          voteAverage={show.vote_average}
+                          year={season.air_date ? new Date(season.air_date).getFullYear() : '—'}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
                 
-                {/* Scrollable container */}
-                <div className="flex overflow-x-auto gap-4 pb-3 -mx-1 px-1">
-                  {show.seasons.map((season) => (
+                {/* Desktop grid - hidden on mobile */}
+                <div className="hidden md:grid md:grid-cols-5 gap-4">
+                  {visibleSeasons.map((season) => (
                     <SeasonCard
                       key={season.id}
                       id={season.id}
@@ -171,7 +206,7 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
                       seasonNumber={season.season_number}
                       episodeCount={season.episode_count}
                       airDate={season.air_date}
-                      voteAverage={show.vote_average} // Assuming using show rating; adjust if seasons have their own
+                      voteAverage={show.vote_average}
                       year={season.air_date ? new Date(season.air_date).getFullYear() : '—'}
                     />
                   ))}

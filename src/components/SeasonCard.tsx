@@ -33,7 +33,7 @@ export default function SeasonCard({
   return (
     <Link href={`/show/${showId}/season/${seasonNumber}`}>
       <div 
-        className="relative flex-none w-40 md:w-44 group rounded-lg overflow-hidden"
+        className="relative flex-none w-40 md:w-44 group rounded-lg overflow-hidden hover:border border-blue-500"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -101,16 +101,6 @@ export default function SeasonCard({
               </button>
             </div>
           </div>
-        </div>
-        
-        {/* Season Title */}
-        <div className="mt-2">
-          <p className="font-medium text-sm text-gray-300 group-hover:text-blue-400 transition-colors truncate">
-            {name}
-          </p>
-          <p className="text-xs text-gray-400">
-            {episodeCount} Episodes
-          </p>
         </div>
       </div>
     </Link>
