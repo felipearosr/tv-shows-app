@@ -33,7 +33,7 @@ export default function ActorCardPreview() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12">
+    <div className="min-h-screen bg-[#06051E] py-12">
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold mb-8">ActorCard Component Preview</h1>
         
@@ -50,7 +50,7 @@ export default function ActorCardPreview() {
         
         <div>
           <h2 className="text-xl font-semibold mb-4">Card Grid</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-6">
             {actors.map(actor => (
               <ActorCard
                 key={actor.id}

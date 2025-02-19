@@ -15,14 +15,14 @@ export default function ActorCard({ name, character, profilePath }: ActorCardPro
   
   return (
     <div 
-      className="relative aspect-[2/3] rounded-lg overflow-hidden group"
+      className="relative aspect-[2/3] rounded-lg overflow-hidden group cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Border effect on hover */}
       <div 
         className={`absolute inset-0 border-2 rounded-lg transition-colors z-10 ${
-          isHovered ? 'border-blue-500' : 'border-transparent'
+          isHovered ? 'border-[#4E4C84]' : 'border-transparent'
         }`}
       />
       
@@ -41,7 +41,7 @@ export default function ActorCard({ name, character, profilePath }: ActorCardPro
       {/* Dark overlay that appears on hover */}
       <div 
         className={`absolute inset-0 bg-black transition-opacity duration-300 ${
-          isHovered ? 'opacity-40' : 'opacity-0'
+          isHovered ? 'opacity-80' : 'opacity-0'
         }`}
       />
       
