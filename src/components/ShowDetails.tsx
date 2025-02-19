@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { TVShow } from '@/types/tv';
 import ActorCard from '@/components/ActorCard';
+import SeasonCard from '@/components/SeasonCard';
 
 interface ShowDetailsProps {
   show: TVShow;
@@ -81,7 +82,7 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
             {/* Cast */}
             <div className="mb-6">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-semibold text-gray-100">Cast</h2>
+                <h2 className="text-2xl font-semibold text-gray-100">Cast and Crew</h2>
                 
                 {/* Show More link - only visible if there are more than 7 cast members */}
                 {show.credits.cast.length > 7 && (
@@ -134,31 +135,47 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
               </div>
             </div>
 
-            {/* Seasons */}
-            <div className="bg-gray-800 p-6 rounded-lg shadow border border-gray-700">
-              <h2 className="text-2xl font-semibold mb-4 text-gray-100">Seasons</h2>
-              <div className="space-y-4">
-                {show.seasons.map((season) => (
-                  <div key={season.id} className="flex gap-4 p-4 bg-gray-700 rounded-lg">
-                    {season.poster_path && (
-                      <div className="relative w-24 aspect-[2/3]">
-                        <Image
-                          src={`${process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL}/w185${season.poster_path}`}
-                          alt={season.name}
-                          fill
-                          className="object-cover rounded"
-                        />
-                      </div>
-                    )}
-                    <div>
-                      <h3 className="font-semibold text-gray-100">{season.name}</h3>
-                      <p className="text-sm text-gray-300">
-                        {season.episode_count} Episodes • {season.air_date && new Date(season.air_date).getFullYear()}
-                      </p>
-                      <p className="text-sm text-gray-400 mt-2">{season.overview || 'No overview available.'}</p>
-                    </div>
-                  </div>
-                ))}
+            {/* Seasons - Horizontal Display */}
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-semibold text-gray-100">Seasons</h2>
+                
+                {/* Show More link - conditionally shown if more than visible seasons */}
+                {show.seasons.length > 4 && (
+                  <a 
+                    href={`/show/${show.id}/seasons`} 
+                    className="text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium flex items-center"
+                  >
+                    View All Seasons
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+              
+              {/* Seasons Scrollable Container */}
+              <div className="relative">
+                {/* Gradient fade effect */}
+                <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-800 to-transparent z-10 pointer-events-none" />
+                
+                {/* Scrollable container */}
+                <div className="flex overflow-x-auto gap-4 pb-3 -mx-1 px-1">
+                  {show.seasons.map((season) => (
+                    <SeasonCard
+                      key={season.id}
+                      id={season.id}
+                      showId={show.id}
+                      name={season.name}
+                      posterPath={season.poster_path}
+                      seasonNumber={season.season_number}
+                      episodeCount={season.episode_count}
+                      airDate={season.air_date}
+                      voteAverage={show.vote_average} // Assuming using show rating; adjust if seasons have their own
+                      year={season.air_date ? new Date(season.air_date).getFullYear() : '—'}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
