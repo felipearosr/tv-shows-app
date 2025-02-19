@@ -79,7 +79,7 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
             </div>
 
             {/* Cast */}
-            <div className="bg-gray-800 p-6 rounded-lg shadow mb-6 border border-gray-700">
+            <div className="mb-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-semibold text-gray-100">Cast</h2>
                 
@@ -121,7 +121,7 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
                 </div>
                 
                 {/* Desktop grid - hidden on mobile */}
-                <div className="hidden md:grid md:grid-cols-7 gap-4">
+                <div className="hidden md:grid md:grid-cols-7 gap-2">
                   {show.credits.cast.slice(0, 7).map((actor) => (
                     <ActorCard
                       key={actor.id}
