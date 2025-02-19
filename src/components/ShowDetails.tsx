@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { TVShow } from '@/types/tv';
+import ActorCard from '@/components/ActorCard';
 
 interface ShowDetailsProps {
   show: TVShow;
@@ -76,28 +77,17 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
               <h2 className="text-2xl font-semibold mb-4">Overview</h2>
               <p className="text-gray-700">{show.overview}</p>
             </div>
-
             {/* Cast */}
             <div className="bg-white p-6 rounded-lg shadow mb-6">
               <h2 className="text-2xl font-semibold mb-4">Cast</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {show.credits.cast.slice(0, 8).map((actor) => (
-                  <div key={actor.id} className="text-center">
-                    <div className="relative aspect-[2/3] mb-2">
-                      <Image
-                        src={
-                          actor.profile_path
-                            ? `${process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL}/w185${actor.profile_path}`
-                            : 'https://via.placeholder.com/185x278'
-                        }
-                        alt={actor.name}
-                        fill
-                        className="object-cover rounded"
-                      />
-                    </div>
-                    <p className="font-medium text-sm">{actor.name}</p>
-                    <p className="text-gray-600 text-sm">{actor.character}</p>
-                  </div>
+                  <ActorCard
+                    key={actor.id}
+                    name={actor.name}
+                    character={actor.character}
+                    profilePath={actor.profile_path}
+                  />
                 ))}
               </div>
             </div>
