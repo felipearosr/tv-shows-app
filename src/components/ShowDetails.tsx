@@ -1,4 +1,3 @@
-// src/components/ShowDetails.tsx
 import Image from 'next/image';
 import Link from 'next/link';
 import { TVShow } from '@/types/tv';
@@ -10,8 +9,8 @@ interface ShowDetailsProps {
 
 export default function ShowDetails({ show }: ShowDetailsProps) {
   return (
-    <main className="min-h-screen bg-gray-900 text-gray-100">
-      {/* Hero Section */}
+    <main className="text-gray-100">
+      {/* Hero Section - Full width section */}
       <div className="relative h-[50vh] w-full">
         {show.backdrop_path && (
           <Image
@@ -22,8 +21,8 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
             priority
           />
         )}
-        <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-gray-900 to-transparent">
-          <div className="container mx-auto">
+        <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#06051E] to-transparent">
+          <div className="max-w-7xl mx-auto">
             <h1 className="text-4xl font-bold text-white mb-2">{show.name}</h1>
             <div className="flex items-center text-white gap-4">
               <span>{new Date(show.first_air_date).getFullYear()}</span>
@@ -40,10 +39,10 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-7 gap-8">
           {/* Sidebar */}
-          <div className="md:col-span-2  ">
+          <div className="md:col-span-2">
             <div className="relative aspect-[2/3] mb-4">
               <Image
                 src={`${process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL}/w500${show.poster_path}`}
@@ -134,7 +133,6 @@ export default function ShowDetails({ show }: ShowDetailsProps) {
                 </div>
               </div>
             </div>
-
 
             {/* Seasons */}
             <div className="bg-gray-800 p-6 rounded-lg shadow border border-gray-700">
